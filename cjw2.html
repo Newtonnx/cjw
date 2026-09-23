@@ -182,6 +182,7 @@
   }
   .opt:nth-child(1){animation-delay:.05s}.opt:nth-child(2){animation-delay:.11s}
   .opt:nth-child(3){animation-delay:.17s}.opt:nth-child(4){animation-delay:.23s}
+  .opt:nth-child(5){animation-delay:.29s}
   @keyframes optIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
   .opt .key{
     flex:none;width:30px;height:30px;border-radius:10px;
@@ -448,42 +449,52 @@ const DIMS = {
   sleep : { name:"睡眠焦虑", icon:"🌙", color:"#7EE8A2" },
 };
 
-/* 10题，每题4个选项（1-4分），每维度2题 */
+/* 10题，每题5个选项（1-5分），每维度2题 */
 const QUESTIONS = [
   { dim:"study", q:"期末周来临的时候，你的第一反应更接近？", opts:[
     ["提前排好复习计划，按部就班",1],["有点紧张，但还能正常吃饭睡觉",2],
-    ["反复担心挂科、绩点不够，越想越乱",3],["一想到就大脑空白，胃部发紧，无法开始",4]]},
+    ["反复担心挂科、绩点不够，越想越乱",3],["一想到就大脑空白，胃部发紧，无法开始",4],
+    ["紧张到失眠心悸，完全学不进去",5]]},
   { dim:"study", q:"作业或论文截止日期临近时，你的状态是？", opts:[
     ["按计划推进，压力在可控范围",1],["略拖延，但最终能完成",2],
-    ["通宵赶工，情绪大起大落",3],["压力大到刻意回避打开那份文档",4]]},
+    ["通宵赶工，情绪大起大落",3],["压力大到刻意回避打开那份文档",4],
+    ["彻底瘫痪，靠逃避一直拖到最后一刻",5]]},
 
   { dim:"job", q:"刷到同学拿到 offer 或“应届生平均薪资”的动态时，你通常？", opts:[
     ["替 TA 高兴，继续自己的节奏",1],["有点羡慕，很快调整回来",2],
-    ["反复比较，越看心里越慌",3],["感觉自己已经被这个时代抛下了",4]]},
+    ["反复比较，越看心里越慌",3],["感觉自己已经被这个时代抛下了",4],
+    ["会一直刷到深夜，越刷越觉得自己毫无价值",5]]},
   { dim:"job", q:"想到毕业后的自己，你的感受是？", opts:[
     ["有大致方向，甚至有点期待",1],["模糊，但暂时不想那么多",2],
-    ["时常被“找不到工作怎么办”击中",3],["完全不敢想，回避一切求职话题",4]]},
+    ["时常被“找不到工作怎么办”击中",3],["完全不敢想，回避一切求职话题",4],
+    ["一想就心慌手抖，只能用睡觉或游戏麻痹自己",5]]},
 
   { dim:"social", q:"室友或同学发出聚会邀约时，你的第一感受？", opts:[
     ["想去就去，拒绝也不内疚",1],["有点纠结，最后多半随大流",2],
-    ["不去怕被孤立，去了又特别耗电",3],["大部分时候只想躲起来，谁也别找我",4]]},
+    ["不去怕被孤立，去了又特别耗电",3],["大部分时候只想躲起来，谁也别找我",4],
+    ["看到邀请就心跳加速，宁可编借口也绝不参加",5]]},
   { dim:"social", q:"发出去的消息很久没人回复，你会？", opts:[
     ["该干嘛干嘛，没当回事",1],["稍微在意一下",2],
-    ["反复检查手机，忍不住脑补 TA 讨厌我",3],["情绪明显低落，一整天缓不过来",4]]},
+    ["反复检查手机，忍不住脑补 TA 讨厌我",3],["情绪明显低落，一整天缓不过来",4],
+    ["会反刍到失眠，甚至想删掉消息装作没发过",5]]},
 
   { dim:"money", q:"月底看生活费余额时，你的心态是？", opts:[
     ["早有预算，按计划花完",1],["有点紧张，下月再省省",2],
-    ["算到个位数，不敢有任何社交消费",3],["涌上强烈的失控感和不安全感",4]]},
+    ["算到个位数，不敢有任何社交消费",3],["涌上强烈的失控感和不安全感",4],
+    ["不敢查余额，一查就整夜睡不着",5]]},
   { dim:"money", q:"想到“向家里要生活费”这件事？", opts:[
     ["很正常的沟通",1],["有点不好意思",2],
-    ["开口前要做很久的心理建设",3],["巨大的负罪感压得我喘不过气",4]]},
+    ["开口前要做很久的心理建设",3],["巨大的负罪感压得我喘不过气",4],
+    ["完全开不了口，宁可自己饿肚子也不说",5]]},
 
   { dim:"sleep", q:"躺下之后到真正入睡，通常需要？", opts:[
     ["15 分钟以内",1],["半小时左右",2],
-    ["一小时以上，脑子停不下来",3],["常常睁着眼就到了后半夜",4]]},
+    ["一小时以上，脑子停不下来",3],["常常睁着眼就到了后半夜",4],
+    ["基本天天熬到天亮，才勉强睡着",5]]},
   { dim:"sleep", q:"白天的精神状态更像？", opts:[
     ["稳定清醒",1],["午后有点困",2],
-    ["靠咖啡硬撑，午后彻底宕机",3],["长期昏沉，情绪一点就炸",4]]},
+    ["靠咖啡硬撑，午后彻底宕机",3],["长期昏沉，情绪一点就炸",4],
+    ["长期疲惫麻木，对什么都提不起劲",5]]},
 ];
 
 /* 6种结果类型：按得分最高的维度判定（差距过小→均衡型） */
@@ -578,7 +589,7 @@ function renderQuestion(){
   q.opts.forEach((o,i)=>{
     const btn = document.createElement("button");
     btn.className = "opt";
-    btn.innerHTML = `<span class="key">${"ABCD"[i]}</span><span>${o[0]}</span>`;
+    btn.innerHTML = `<span class="key">${"ABCDE"[i]}</span><span>${o[0]}</span>`;
     btn.onclick = ()=>pick(i);
     box.appendChild(btn);
   });
@@ -622,7 +633,7 @@ function renderResult(){
   const dimKeys = Object.keys(DIMS);
   const ranked = dimKeys.slice().sort((a,b)=>scores[b]-scores[a]);
 
-  // 判定类型：首位领先不足2分 → 均衡型（10题版每维满分8，阈值相应调小）
+  // 判定类型：首位领先不足2分 → 均衡型
   let result;
   if(ranked.length>1 && scores[ranked[0]] - scores[ranked[1]] < 2){
     result = TYPES.find(t=>t.key==="balance");
@@ -631,9 +642,9 @@ function renderResult(){
   }
 
   const total = dimKeys.reduce((s,k)=>s+scores[k],0);
-  const overall = Math.round(total/(QUESTIONS.length*4)*100);
+  const overall = Math.round(total/(QUESTIONS.length*5)*100);
   const dimPct = {};
-  dimKeys.forEach(k=>dimPct[k] = Math.round(scores[k]/8*100));
+  dimKeys.forEach(k=>dimPct[k] = Math.round(scores[k]/10*100));
 
   $("rEmoji").textContent = result.emoji;
   $("rType").textContent = result.type;
