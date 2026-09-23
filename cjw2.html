@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>情绪深海测深仪 · 大学生焦虑自测</title>
 <style>
   :root{
@@ -29,6 +29,7 @@
     background:var(--bg-deep);
     color:var(--ink);
     overflow-x:hidden;
+    -webkit-text-size-adjust:100%;
   }
 
   /* ============ 深海背景 ============ */
@@ -37,6 +38,7 @@
     background:
       radial-gradient(120% 55% at 50% -8%, rgba(95,225,215,0.14) 0%, rgba(95,225,215,0) 55%),
       linear-gradient(180deg, #0F4157 0%, #0A2A3F 42%, #04121F 100%);
+    transition:background .5s ease;
   }
   .ocean::after{ /* 光柱 */
     content:"";position:absolute;top:-10%;left:50%;width:70vw;height:80vh;transform:translateX(-50%) rotate(6deg);
@@ -333,6 +335,92 @@
     box-shadow:0 10px 30px rgba(0,0,0,0.4);
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ============ 主题切换 ============ */
+  .theme-toggle{
+    position:fixed;top:14px;right:14px;z-index:60;
+    width:42px;height:42px;border-radius:50%;cursor:pointer;
+    font-size:19px;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--card);border:1px solid var(--card-border);
+    backdrop-filter:blur(10px);
+    box-shadow:0 4px 16px rgba(0,0,0,0.18);
+    transition:transform .2s ease, box-shadow .5s ease, background .5s ease, border-color .5s ease;
+  }
+  .theme-toggle:active{transform:scale(.88) rotate(-24deg);}
+  body,.ocean,.opt,.index-card,.toast,.r-advice,.tag,.chip,.theme-toggle{
+    transition-property:background,color,border-color,box-shadow;
+    transition-duration:.5s;
+  }
+
+  /* —— 浅色主题：白日海面 —— */
+  body.light{
+    --bg-deep:#E7F4F3;
+    --bg-mid:#CDE9EA;
+    --bg-shallow:#BCE2E4;
+    --ink:#10333E;
+    --ink-dim:#39616E;
+    --ink-faint:#6E93A0;
+    --aqua:#0E9C96;
+    --aqua-deep:#0B807D;
+    --card:rgba(255,255,255,0.62);
+    --card-border:rgba(14,110,115,0.18);
+  }
+  body.light .ocean{
+    background:
+      radial-gradient(120% 55% at 50% -8%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 55%),
+      linear-gradient(180deg,#DFF3F3 0%,#BFE5E7 46%,#EAF8F7 100%);
+  }
+  body.light .ocean::after{background:linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0) 70%);}
+  body.light .blob.b1{background:rgba(31,184,180,0.18);}
+  body.light .blob.b2{background:rgba(90,130,220,0.12);}
+  body.light .bubble{
+    background:radial-gradient(circle at 32% 30%, rgba(255,255,255,0.95), rgba(180,230,232,0.35) 55%, rgba(180,230,232,0.08) 72%);
+    border-color:rgba(14,110,115,0.22);
+  }
+  body.light .track{background:rgba(14,110,115,0.14);}
+  body.light .opt.picked{
+    border-color:rgba(14,156,150,0.8);
+    background:linear-gradient(135deg,rgba(14,156,150,0.16),rgba(11,128,125,0.06));
+    box-shadow:0 0 22px rgba(14,156,150,0.15);
+  }
+  body.light .opt.picked .key{background:var(--aqua);color:#fff;border-color:var(--aqua);}
+  body.light .gauge .ring{border-color:rgba(14,156,150,0.4);box-shadow:0 0 24px rgba(14,156,150,0.15) inset,0 0 30px rgba(14,156,150,0.1);}
+  body.light .gauge .ring:nth-child(2){border-color:rgba(14,156,150,0.25);}
+  body.light .gauge .ring:nth-child(3){border-color:rgba(14,156,150,0.15);}
+  body.light .sonar .wave{border-color:rgba(14,156,150,0.45);}
+  body.light .sonar .sweep{background:conic-gradient(from 0deg, rgba(14,156,150,0.4), rgba(14,156,150,0) 70deg);}
+  body.light .sonar .core{background:radial-gradient(circle at 38% 34%,#8FEFE8,#0FA5A0 70%);box-shadow:0 0 40px rgba(14,156,150,0.5);}
+  body.light .r-advice{background:rgba(255,180,60,0.12);border-color:rgba(214,146,26,0.3);color:#7A5510;}
+  body.light .r-advice b{color:#B07510;}
+  body.light .toast{background:rgba(255,255,255,0.95);border-color:rgba(14,156,150,0.4);color:var(--ink);box-shadow:0 10px 30px rgba(14,110,115,0.25);}
+  body.light .theme-toggle{box-shadow:0 4px 16px rgba(14,110,115,0.18);}
+
+  /* ============ 移动端适配 ============ */
+  @supports(padding:max(0px)){
+    .stage{padding-left:max(22px, env(safe-area-inset-left));padding-right:max(22px, env(safe-area-inset-right));}
+    #screen-intro{padding-bottom:max(34px, env(safe-area-inset-bottom));}
+    #screen-result{padding-bottom:max(40px, env(safe-area-inset-bottom));}
+  }
+  @media (max-width:360px){
+    h1{font-size:31px;}
+    h1 .thin{font-size:17px;}
+    .question{font-size:19px;margin-bottom:22px;}
+    .opt{padding:15px 14px;font-size:14px;gap:11px;}
+    .r-type{font-size:25px;}
+    .index-num .big{font-size:36px;}
+    .btn-main{height:54px;font-size:15.5px;}
+  }
+  @media (max-height:640px){
+    .gauge{width:92px;height:92px;margin-bottom:20px;}
+    .hero{padding-top:24px;}
+    .lede{margin-top:12px;}
+    .dim-chips{margin-top:18px;}
+    .meta{margin-top:18px;}
+    .btn-main{margin-top:22px;}
+    .question{margin:12px 0 20px;}
+    .sonar{width:150px;height:150px;margin-bottom:30px;}
+  }
 </style>
 </head>
 <body>
@@ -438,6 +526,7 @@
 </div>
 
 <div class="toast" id="toast"></div>
+<button class="theme-toggle" id="themeBtn" onclick="toggleTheme()" aria-label="切换浅色/深色主题">☀️</button>
 
 <script>
 /* ================= 数据 ================= */
@@ -726,6 +815,24 @@ function doShare(){
 function retake(){
   idx = 0; scores = {}; answered = [];
   show("screen-intro");
+}
+
+/* ================= 主题切换（浅色/深色） ================= */
+(function initTheme(){
+  const saved = localStorage.getItem("sonar-theme");
+  const preferLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+  if(saved === "light" || (!saved && preferLight)) document.body.classList.add("light");
+  syncThemeBtn();
+})();
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  const isLight = document.body.classList.contains("light");
+  localStorage.setItem("sonar-theme", isLight ? "light" : "dark");
+  syncThemeBtn();
+  toast(isLight ? "已上浮至海面 · 浅色模式 ☀️" : "已下潜回海沟 · 深色模式 🌙");
+}
+function syncThemeBtn(){
+  $("themeBtn").textContent = document.body.classList.contains("light") ? "🌙" : "☀️";
 }
 </script>
 </body>
