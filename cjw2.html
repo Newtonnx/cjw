@@ -449,7 +449,7 @@ const DIMS = {
   sleep : { name:"睡眠焦虑", icon:"🌙", color:"#7EE8A2" },
 };
 
-/* 10题，每题5个选项（1-5分），每维度2题 */
+/* 10题，每题5个选项（1-5分），每维度2题；未作答不可跳题、提交前逐题校验 */
 const QUESTIONS = [
   { dim:"study", q:"期末周来临的时候，你的第一反应更接近？", opts:[
     ["提前排好复习计划，按部就班",1],["有点紧张，但还能正常吃饭睡觉",2],
@@ -534,7 +534,7 @@ const TYPES = [
 /* ================= 状态 ================= */
 let idx = 0;
 let scores = {};      // 各维度得分
-let answered = [];    // 已选答案，支持回退
+let answered = [];    // 已选答案（校验依据），支持回退
 
 /* ================= 气泡 ================= */
 (function makeBubbles(){
@@ -604,10 +604,32 @@ function pick(i){
   const q = QUESTIONS[idx];
   scores[q.dim] += q.opts[i][1];
   answered[idx] = i;
-  setTimeout(()=>{
-    if(idx < QUESTIONS.length-1){ idx++; renderQuestion(); }
-    else { $("fill").style.width = "100%"; $("depthPct").textContent = 100; goAnalysis(); }
-  }, 430);
+  setTimeout(goNext, 430);
+}
+
+/* 校验①：当前题未作答，不允许跳到下一题 */
+function goNext(){
+  if(answered[idx] === undefined || answered[idx] === null){
+    toast("请先选择一个选项再继续");
+    return;
+  }
+  if(idx < QUESTIONS.length-1){ idx++; renderQuestion(); }
+  else { submitResult(); }
+}
+
+/* 校验②：提交前逐题核对，防止任何一道漏题直接提交；漏题则自动定位回去 */
+function submitResult(){
+  const missing = QUESTIONS.findIndex((q,i)=> answered[i]===undefined || answered[i]===null);
+  if(missing !== -1){
+    idx = missing;
+    renderQuestion();
+    show("screen-quiz");
+    toast("还有未作答的题目，已为你定位到该题");
+    return;
+  }
+  $("fill").style.width = "100%";
+  $("depthPct").textContent = 100;
+  goAnalysis();
 }
 
 function prevQuestion(){
